@@ -10,10 +10,11 @@
 		<tr><td><code>preprocessing</code></td><td>Trimmomatic, FastQC, MultiQC</td></tr>
 		<tr><td><code>mapping</code></td><td>BWA-MEM, SAMtools, Picard</td></tr>
 		<tr><td><code>assembly</code></td><td>SPAdes, QUAST, seqkit, Unicycler</td></tr>
-		<tr><td><code>Hcalling</code></td><td>GATK4, Delly, bcftools (+ tabix/bgzip)</td></tr>
+		<tr><td><code>Hcalling</code></td><td>GATK4, Delly, bcftools (+ tabix/bgzip), cnvkit</td></tr>
 		<tr><td><code>cnvkit_env</code> <span class="tag">not in conda_envs.txt</span></td><td>CNVkit, <code>guess_baits.py</code> &mdash; create manually before running the CNV stage of <code>syndactyly_WES_pipeline.bash</code></td></tr>
 	</table>
 	<p>ANNOVAR (<code>table_annovar.pl</code>, <code>convert2annovar.pl</code>, <code>annotate_variation.pl</code>) is not on Bioconda and is called directly via <code>perl</code> from a manually installed copy under <code>tools/annovar/</code>.</p>
+	<p>For unspecified baits as in <code>syndactyly_7_patients.bash</code> pipeline, the script <code>guess_bait.py</code> is used for CNVs calling. Scripts are from <a href="https://github.com/etal/cnvkit">cnvkit repository</a></p>
 
 <h2 id="repo-structure">Pipelines</h2>
 	<table>
@@ -33,7 +34,7 @@
 			<span><strong>Reference:</strong> hg38</span>
 		</div>
 		<p>Single-sample pipeline: FastQC/Trimmomatic &rarr; BWA-MEM &rarr; Picard MarkDuplicates &rarr; GATK BaseRecalibrator/ApplyBQSR &rarr; HaplotypeCaller &rarr; SNP/indel splitting and hard-filtering &rarr; ANNOVAR annotation (refGene, cytoBand, ExAC, avsnp150, dbNSFP). Reference indexing and ANNOVAR database downloads are one-time, guarded steps.</p>
-		<pre><code>bash ./III_2aHNWX.bash &lt;sample_id&gt;</code></pre>
+		<pre><code>bash ./III_2aHNWX.bash</code></pre>
 	</div>
 
 <div class="card">
@@ -46,7 +47,7 @@
 			<span><strong>Reference:</strong> hg38</span>
 		</div>
 		<p>Single-sample pipeline - with similar structure to <code>bash ./III_2aHNWX.bash</code></p>
-		<pre><code>bash ./s07c.bash &lt;sample_id&gt;</code></pre>
+		<pre><code>bash ./s07c.bash</code></pre>
 	</div>
 
 <div class="card">
@@ -64,14 +65,17 @@
 			<li><strong>Structural variants:</strong> Delly call &rarr; merge &rarr; genotype &rarr; cohort merge &rarr; germline filter &rarr; ANNOVAR (+ DGV).</li>
 			<li><strong>CNVs:</strong> CNVkit batch (with optional bait-region inference) &rarr; segmetrics &rarr; call &rarr; per-sample VCF export &rarr; cohort merge &rarr; ANNOVAR (+ DGV).</li>
 		</ul>
-		<pre><code>./syndactyly_WES_pipeline.bash</code></pre>
-		<div class="callout warn">Requires a <code>cnvkit_env</code> Conda environment (CNVkit + <code>guess_baits.py</code>) that isn't part of the documented environment list &mdash; create it before running the CNV stage.</div>
+		<pre><code>bash ./syndactyly_7_patients.bash</code></pre>
 	</div>
 
+<h2>Publications</h2>
+<ul>
+	<li>Nguyen, T. N., & Huynh, M. H. (2024). Comparison of Galaxy and Unix tools for analyzing the exome sequencing data from syndactyly abnormalities. Vietnam Journal of Science and Technology. <a href="https://vjst.vast.vn/jst/article/view/20054">https://doi.org/10.15625/2525-2518/20054</a></li>
+</ul>
+	
+<h2>Notes</h2>
 <footer>
 		Internal lab pipelines &middot; run on <code>/storage/student9/</code>.
 </footer>
 
-</div>
-</body>
 </html>
