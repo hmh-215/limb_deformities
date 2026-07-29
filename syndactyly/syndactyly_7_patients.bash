@@ -572,7 +572,7 @@ done
 	#only run if no baits .bed file already exists, so it is now guarded.
 	if [ ! -f "${baits}" ]; then
 		echo -e "\e[32m ${baits} not found - guessing baits from BAM coverage... \e[0m"
-		conda run -n cnvkit_env guess_baits.py \
+		conda run -n Hcalling guess_baits.py \
 		"${flqm_short_bams[@]}" \
 		-t "${hg38exon}" \
 		-o "${baits}"
@@ -587,7 +587,7 @@ done
 	CNVKIT_BATCH="${CNV_CALLING_SYN}/cnvkit_batch"
 	mkdir -p "${CNVKIT_BATCH}"
 
-	conda run -n cnvkit_env cnvkit.py batch \
+	conda run -n Hcalling cnvkit.py batch \
 	"${flqm_short_bams[@]}" \
 	-n -t "${baits}" -f "${humanref}" --access "${access}" \
 	--method hybrid \
@@ -608,7 +608,7 @@ for sample_id in "${sample_ids[@]}"; do
 	cns="${CNVKIT_BATCH}/${sample}.sort.fixmate.group.filter.rmdup.FLQM.cns"
 	segmetrics_cns="${CNV_CALLING_SYN}/${sample}.segmetrics.cns"
 
-	conda run -n cnvkit_env cnvkit.py segmetrics \
+	conda run -n Hcalling cnvkit.py segmetrics \
 	"${cnr}" \
 	-s "${cns}" \
 	--ci --mean \
@@ -625,7 +625,7 @@ for sample_id in "${sample_ids[@]}"; do
 	filtered_cns="${CNV_CALLING_SYN}/${sample}.filtered.cns"
 
 	#BUG FIX: "--drop-loew-coverage" was a typo for "--drop-low-coverage"
-	conda run -n cnvkit_env cnvkit.py call \
+	conda run -n Hcalling cnvkit.py call \
 	"${segmetrics_cns}" \
 	--filter ci --drop-low-coverage \
 	-o "${filtered_cns}"
@@ -643,7 +643,7 @@ for sample_id in "${sample_ids[@]}"; do
 
 	#BUG FIX: original used "S$sample_id}.CNVs.cnvkit.vcf" (missing opening
 	#brace) which produced a literal stray "}" in the output filename
-	conda run -n cnvkit_env cnvkit.py export vcf \
+	conda run -n Hcalling cnvkit.py export vcf \
 	"${filtered_cns}" \
 	-i "${sample}" \
 	-o "${cnv_vcf}"
