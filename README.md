@@ -11,7 +11,6 @@
 		<tr><td><code>mapping</code></td><td>BWA-MEM, SAMtools, Picard</td></tr>
 		<tr><td><code>assembly</code></td><td>SPAdes, QUAST, seqkit, Unicycler</td></tr>
 		<tr><td><code>Hcalling</code></td><td>GATK4, Delly, bcftools (+ tabix/bgzip), cnvkit</td></tr>
-		<tr><td><code>cnvkit_env</code> <span class="tag">not in conda_envs.txt</span></td><td>CNVkit, <code>guess_baits.py</code> &mdash; create manually before running the CNV stage of <code>syndactyly_WES_pipeline.bash</code></td></tr>
 	</table>
 	<p>ANNOVAR (<code>table_annovar.pl</code>, <code>convert2annovar.pl</code>, <code>annotate_variation.pl</code>) is not on Bioconda and is called directly via <code>perl</code> from a manually installed copy under <code>tools/annovar/</code>.</p>
 	<p>For unspecified baits as in <code>syndactyly_7_patients.bash</code> pipeline, the script <code>guess_bait.py</code> is used for CNVs calling. Scripts are from <a href="https://github.com/etal/cnvkit">cnvkit repository</a></p>
