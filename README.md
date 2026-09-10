@@ -18,14 +18,14 @@
 <h2 id="repo-structure">Pipelines</h2>
 	<table>
 		<tr><th>Script name</th><th>Purpose</th></tr>
-		<tr><td><code>III_2aHNWX.bash</code></td><td>Preprocessing through BQSR, variant calling, ANNOVAR annotation for a Vietnamese polydactyly type II/III patient </td></tr>
-		<tr><td><code>s07c.bash</code></td><td>Preprocessing through BQSR, variant calling, ANNOVAR annotation for a Vietnamese syndactyly patient</td></tr>
-		<tr><td><code>syndactyly_7_patients.bash</code></td><td>Preprocessing, short-variant / SV / CNV calling and annotation of a 7 syndactyly patients cohort</td></tr>
+		<tr><td><code>bash/polydactyly/III_2aHNWX.bash</code></td><td>Preprocessing through BQSR, variant calling, ANNOVAR annotation for a Vietnamese polydactyly type II/III patient </td></tr>
+		<tr><td><code>bash/syndactyly/s07c.bash</code></td><td>Preprocessing through BQSR, variant calling, ANNOVAR annotation for a Vietnamese syndactyly patient</td></tr>
+		<tr><td><code>bash/syndactyly/syndactyly_7_patients.bash</code></td><td>Preprocessing, short-variant / SV / CNV calling and annotation of a 7 syndactyly patients cohort</td></tr>
 	</table>
 
 <div class="card">
 		<div class="card-title">
-			<h3><code>III_2aHNWX.bash</code></h3>
+			<h3><code>bash/polydactyly/III_2aHNWX.bash</code></h3>
 			<span class="tag">Human &middot; WES</span>
 		</div>
 		<div class="meta-row">
@@ -33,25 +33,25 @@
 			<span><strong>Reference:</strong> hg38</span>
 		</div>
 		<p>Single-sample pipeline: FastQC/Trimmomatic &rarr; BWA-MEM &rarr; Picard MarkDuplicates &rarr; GATK BaseRecalibrator/ApplyBQSR &rarr; HaplotypeCaller &rarr; SNP/indel splitting and hard-filtering &rarr; ANNOVAR annotation (refGene, cytoBand, ExAC, avsnp150, dbNSFP). Reference indexing and ANNOVAR database downloads are one-time, guarded steps.</p>
-		<pre><code>bash ./III_2aHNWX.bash</code></pre>
+		<pre><code>bash ./bash/polydactyly/III_2aHNWX.bash</code></pre>
 	</div>
 
 <div class="card">
 		<div class="card-title">
-			<h3><code>s07c.bash</code></h3>
+			<h3><code>bash/syndactyly/s07c.bash</code></h3>
 			<span class="tag">Human &middot; WES</span>
 		</div>
 		<div class="meta-row">
 			<span><strong>Input:</strong> <code>&lt;sample_id&gt;_1.fastq.gz</code> / <code>_2.fastq.gz</code></span>
 			<span><strong>Reference:</strong> hg38</span>
 		</div>
-		<p>Single-sample pipeline - with similar structure to <code>bash ./III_2aHNWX.bash</code></p>
-		<pre><code>bash ./s07c.bash</code></pre>
+		<p>Single-sample pipeline - with similar structure to <code>bash ./bash/polydactyly/III_2aHNWX.bash</code></p>
+		<pre><code>bash ./bash/syndactyly/s07c.bash</code></pre>
 	</div>
 
 <div class="card">
 		<div class="card-title">
-			<h3><code>syndactyly_7_patients.bash</code></h3>
+			<h3><code>bash/syndactyly/syndactyly_7_patients.bash</code></h3>
 			<span class="tag">Human &middot; WES cohort</span>
 		</div>
 		<div class="meta-row">
@@ -64,7 +64,7 @@
 			<li><strong>Structural variants:</strong> Delly call &rarr; merge &rarr; genotype &rarr; cohort merge &rarr; germline filter &rarr; ANNOVAR (+ DGV).</li>
 			<li><strong>CNVs:</strong> CNVkit batch (with optional bait-region inference) &rarr; segmetrics &rarr; call &rarr; per-sample VCF export &rarr; cohort merge &rarr; ANNOVAR (+ DGV).</li>
 		</ul>
-		<pre><code>bash ./syndactyly_7_patients.bash</code></pre>
+		<pre><code>bash ./bash/syndactyly/syndactyly_7_patients.bash</code></pre>
 	</div>
 
 <h2>Publications</h2>

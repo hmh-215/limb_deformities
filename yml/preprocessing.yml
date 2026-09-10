@@ -1,0 +1,9 @@
+name: preprocessing
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - fastqc=0.12.1
+  - trimmomatic=0.38
+  - multiqc=1.33

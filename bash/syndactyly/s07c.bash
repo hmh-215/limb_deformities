@@ -11,8 +11,8 @@ TOOLS_PATH="/storage/student9/tools"
 SAMPLE_PATH="/storage/student9/projects/s07c"
 threads=16
 
-#sample id must be passed as the first argument, e.g. ./WGS_variant_calling.bash S07C
-sample_id="S07C"
+#sample id can be passed as the first argument, e.g. ./s07c.bash S07C
+sample_id="${1:-S07C}"
 
 #path to references and databases
 humanref="${REF_PATH}/hg38.fa"
@@ -115,9 +115,9 @@ echo "============================================================"
 	conda run -n preprocessing trimmomatic PE \
 	-threads ${threads} \
 	-phred33 \
-	${read1} ${read2} \
-	${trim_output_1}.paired.fastq.gz ${trim_output_1}.unpaired.fastq.gz \
-	${trim_output_2}.paired.fastq.gz ${trim_output_2}.unpaired.fastq.gz \
+	"${read1}" "${read2}" \
+	"${trim_output_1}.paired.fastq.gz" "${trim_output_1}.unpaired.fastq.gz" \
+	"${trim_output_2}.paired.fastq.gz" "${trim_output_2}.unpaired.fastq.gz" \
 	ILLUMINACLIP:"${truseq3}":2:30:10:8:true \
 	HEADCROP:3 TRAILING:10 MINLEN:25
 
