@@ -45,12 +45,27 @@ mkdir -p "${CALLING_WGS}/${sample_id}"
 mkdir -p "${ANNOTATION_WGS}/${sample_id}"
 mkdir -p "${humandb}"
 
-#create global log
+# Dual-log setup: main run log and dedicated failure/skip tracking log
 LOG="${SAMPLE_PATH}/logs/WGS_${sample_id}.log"
+FAIL_LOG="${SAMPLE_PATH}/logs/WGS_${sample_id}.failed_skipped.log"
 exec > >(tee -a "${LOG}") 2>&1
+
+echo "======================================================" >> "${FAIL_LOG}"
+echo " Failure & Skip Log — Started: $(date)" >> "${FAIL_LOG}"
+echo "======================================================" >> "${FAIL_LOG}"
+
+log_failure() {
+    local phase="$1"
+    local sample="$2"
+    local status="$3" # e.g. "SKIPPED_EXISTS", "INPUT_MISSING", "EXECUTION_FAILED", "OUTPUT_MISSING"
+    local reason="$4"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${phase}] [${sample}] [${status}] ${reason}" >> "${FAIL_LOG}"
+}
 
 echo "============================================================"
 echo " WGS variant calling: ${sample_id} - Started: $(date)"
+echo " Full log           : ${LOG}"
+echo " Failure & skip log : ${FAIL_LOG}"
 echo "============================================================"
 
 	#############################################
@@ -403,5 +418,16 @@ echo "  Filtered SNPs VCF  : ${filtered_snps_vcf}"
 echo "  Filtered indels VCF: ${filtered_indels_vcf}"
 echo "  SNPs annotation    : ${ANNOTATION_SAMPLE}/${sample_id}.annotated_snps.${annovar_buildver}_multianno.csv"
 echo "  Indels annotation  : ${ANNOTATION_SAMPLE}/${sample_id}.annotated_indels.${annovar_buildver}_multianno.csv"
-echo "  Full log           : ${LOG}"
+echo "  Full execution log : ${LOG}"
+
+fail_count=$(grep -c '\[FAILED\]\|\[EXECUTION_FAILED\]\|\[OUTPUT_MISSING' "${FAIL_LOG}" 2>/dev/null || echo 0)
+skip_count=$(grep -c '\[SKIPPED' "${FAIL_LOG}" 2>/dev/null || echo 0)
+
+if [ "${fail_count}" -gt 0 ]; then
+	echo -e "\e[31m  Failure/Issues log : ${FAIL_LOG} (${fail_count} failures detected!) \e[0m"
+	echo -e "\e[31m  >>> Inspect ${FAIL_LOG} to see which steps failed and why. \e[0m"
+else
+	echo -e "\e[32m  Failure/Issues log : ${FAIL_LOG} (0 errors recorded) \e[0m"
+fi
+echo -e "\e[32m  Skipped checkpoints: ${skip_count} records \e[0m"
 echo "========================================================"
