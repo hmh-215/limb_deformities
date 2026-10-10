@@ -15,6 +15,28 @@
 	<p>ANNOVAR (<code>table_annovar.pl</code>, <code>convert2annovar.pl</code>, <code>annotate_variation.pl</code>) is not on Bioconda and is called directly via <code>perl</code> from a manually installed copy under <code>tools/annovar/</code>.</p>
 	<p>For unspecified baits as in <code>syndactyly_7_patients.bash</code> pipeline, the script <code>guess_bait.py</code> is used for CNVs calling. Scripts are from <a href="https://github.com/etal/cnvkit">cnvkit repository</a></p>
 
+<h2 id="cloning-and-execution">Cloning and Execution</h2>
+	<p>To clone the repository onto your compute environment and prepare the pipelines for execution:</p>
+	<pre><code># 1. Clone the repository
+git clone https://github.com/hmh-215/limb_deformities.git
+# Alternatively via SSH:
+# git clone git@github.com:hmh-215/limb_deformities.git
+
+# 2. Navigate into the repository directory
+cd limb_deformities
+
+# 3. Grant executable permissions to all pipeline scripts
+chmod -R +x bash/
+
+# 4. Execute a pipeline (e.g., single-patient or cohort analysis)
+bash ./bash/polydactyly/III_2aHNWX.bash
+# or
+bash ./bash/syndactyly/s07c.bash
+# or
+bash ./bash/syndactyly/syndactyly_7_patients.bash
+</code></pre>
+	<p><em>Note:</em> Ensure that reference genomes (e.g., <code>hg38.fa</code>, <code>dbSNP</code>) and ANNOVAR database paths defined in the <code>GLOBAL SETTING</code> block of each script match your local storage structure before launching.</p>
+
 <h2 id="repo-structure">Pipelines</h2>
 	<table>
 		<tr><th>Script name</th><th>Purpose</th></tr>
